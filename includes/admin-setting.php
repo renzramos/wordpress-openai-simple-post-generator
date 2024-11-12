@@ -4,11 +4,11 @@ add_action( 'admin_menu', 'openai_add_settings_page' );
 
 function openai_add_settings_page() {
     add_menu_page(
-        'OpenAI Settings', // Page title
-        'OpenAI Settings', // Menu title
+        'Generate Post', // Page title
+        'Generate Post', // Menu title
         'manage_options',  // Capability
-        'rnzdev-spcg-settings', // Menu slug
-        'rnzdev-spcg_settings_page', // Callback function
+        'rnzdevspcg-openai-settings', // Menu slug
+        'openai_settings_page', // Callback function
         'dashicons-admin-generic', // Icon
         100 // Position
     );
@@ -33,7 +33,9 @@ function openai_settings_page() {
 add_action( 'admin_init', 'openai_register_settings' );
 
 function openai_register_settings() {
+
     register_setting( 'openai_settings_group', 'openai_api_key' );
+    register_setting( 'openai_settings_group', 'openai_topics_key' );
 
     add_settings_section(
         'openai_settings_section',
@@ -49,6 +51,13 @@ function openai_register_settings() {
         'openai-settings',
         'openai_settings_section'
     );
+    add_settings_field(
+        'openai_topics_key',
+        'OpenAI Topics',
+        'openai_topics_key_field_callback',
+        'openai-settings',
+        'openai_settings_section'
+    );
 }
 
 function openai_settings_section_callback() {
@@ -57,5 +66,9 @@ function openai_settings_section_callback() {
 
 function openai_api_key_field_callback() {
     $api_key = get_option( 'openai_api_key' );
-    echo '<input type="text" name="openai_api_key" value="' . esc_attr( $api_key ) . '" class="regular-text">';
+    echo '<input type="password" name="openai_api_key" value="' . esc_attr( $api_key ) . '" class="regular-text">';
+}
+function openai_topics_key_field_callback() {
+    $openai_topics_key = get_option( 'openai_topics_key' );
+    echo '<textarea rows="30" type="text" name="openai_topics_key"class="regular-text">' . esc_attr( $openai_topics_key ) . '</textarea>';
 }

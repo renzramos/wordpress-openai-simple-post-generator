@@ -16,5 +16,6 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 
 require_once('includes/admin-setting.php');
+require_once('includes/rest-api.php');
 
 
